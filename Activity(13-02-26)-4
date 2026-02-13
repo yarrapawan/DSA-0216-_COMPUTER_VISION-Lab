@@ -1,0 +1,28 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+img = cv2.imread(r"C:\Users\pawan\OneDrive\Desktop\image.jpg")  
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+levels = [gray]
+for i in range(3):
+    levels.append(cv2.pyrDown(levels[-1]))
+
+variances = []
+means = []
+
+for lvl in levels:
+    flat = lvl.flatten()
+    means.append(np.mean(flat))
+    variances.append(np.var(flat))
+
+plt.figure(figsize=(8,5))
+plt.plot(range(len(variances)), variances, marker='o')
+plt.xlabel("Zoom Level (0=Original)")
+plt.ylabel("Pixel Variance")
+plt.title("Zoom Level vs Variance")
+plt.grid(True)
+plt.show()
+
+for i in range(len(levels)):
+    print(f"Level {i} -> Mean: {means[i]:.2f}, Variance: {variances[i]:.2f}")
