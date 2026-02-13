@@ -1,0 +1,35 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+img = cv2.imread(r"C:\Users\pawan\OneDrive\Desktop\image.jpg")  
+img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+level0 = img_gray
+level1 = cv2.pyrDown(level0)
+level2 = cv2.pyrDown(level1)
+level3 = cv2.pyrDown(level2)
+
+levels = [level0, level1, level2, level3]
+
+
+edges = []
+for lvl in levels:
+    e = cv2.Canny(lvl, 100, 200)
+    edges.append(e)
+
+# Display results
+plt.figure(figsize=(10, 12))
+
+for i in range(4):
+    plt.subplot(4, 2, 2*i+1)
+    plt.imshow(levels[i], cmap='gray')
+    plt.title(f'Level {i}')
+    plt.axis('off')
+
+    plt.subplot(4, 2, 2*i+2)
+    plt.imshow(edges[i], cmap='gray')
+    plt.title(f'Edges Level {i}')
+    plt.axis('off')
+
+plt.tight_layout()
+plt.show()
