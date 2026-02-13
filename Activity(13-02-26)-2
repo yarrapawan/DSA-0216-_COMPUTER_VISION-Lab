@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+img = np.zeros((400, 400), dtype=np.uint8)
+cv2.circle(img, (100, 100), 10, 255, -1)
+cv2.circle(img, (200, 100), 15, 255, -1
+cv2.circle(img, (100, 300), 40, 255, -1)
+cv2.circle(img, (250, 300), 60, 255, -1)
+blur_small = cv2.GaussianBlur(img, (5,5), 1)
+log_small = cv2.Laplacian(blur_small, cv2.CV_64F)
+blur_large = cv2.GaussianBlur(img, (31,31), 5)
+log_large = cv2.Laplacian(blur_large, cv2.CV_64F)
+
+plt.figure(figsize=(10,8))
+
+plt.subplot(2,2,1)
+plt.imshow(img, cmap='gray')
+plt.title("Original Blobs")
+plt.axis('off')
+
+plt.subplot(2,2,2)
+plt.imshow(log_small, cmap='gray')
+plt.title("Small Filter (Detects Small Blobs)")
+plt.axis('off')
+
+plt.subplot(2,2,3)
+plt.imshow(log_large, cmap='gray')
+plt.title("Large Filter (Detects Large Blobs)")
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
